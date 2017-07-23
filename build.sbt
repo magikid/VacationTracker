@@ -10,6 +10,8 @@ libraryDependencies ++= Seq( javaJdbc , cache , javaWs , evolutions )
 
 libraryDependencies += "org.webjars" % "bootstrap" % "3.3.4"
 
+libraryDependencies += "postgresql" % "postgresql" % "9.1-901-1.jdbc4"
+
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )  
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"  
