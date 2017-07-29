@@ -12,7 +12,7 @@ POST    /session/create             controllers.SessionController.create
 DELETE  /logout                     controllers.SessionController.destroy
 
 # Vacation Requests
-#GET     /requests                   controllers.VacationRequestController.index
+GET     /requests                   controllers.VacationRequestController.index
 #GET     /requests/new                controllers.VacationRequestController.newRequest
 #POST    /requests/create             controllers.VacationRequestController.create
 #GET     /requests/:id                controllers.VacationRequestController.show(id: Long)
