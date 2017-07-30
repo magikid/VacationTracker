@@ -4,7 +4,8 @@
 @implicitField = @{ FieldConstructor(requestFieldConstructorTemplate.f) }
 
 @main("New Vacation Request") {
-    @if(requestForm.hasGlobalErrors()){
+    @if(requestForm.hasGlobalErrors){
+        <!--suppress HtmlFormInputWithoutLabel -->
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="alert alert-danger" role="alert">@requestForm.globalError.message()</div>

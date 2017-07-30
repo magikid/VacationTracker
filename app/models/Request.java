@@ -18,6 +18,7 @@ import java.util.Date;
 
 @Entity
 public class Request extends Model{
+    @SuppressWarnings("unused")
     @Id
     public Long id;
 
@@ -62,11 +63,7 @@ public class Request extends Model{
     }
 
     public Boolean supervisorApproved() {
-        if(this.getSupervisorApproved() == Status.APPROVED){
-            return true;
-        }else{
-            return false;
-        }
+        return this.getSupervisorApproved() == Status.APPROVED;
     }
 
     public Date getStartDate() {
@@ -155,6 +152,6 @@ public class Request extends Model{
         DENIED,
 
         @EnumValue("pending")
-        PENDING;
+        PENDING
     }
 }

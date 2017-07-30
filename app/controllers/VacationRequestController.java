@@ -1,6 +1,5 @@
 package controllers;
 
-import forms.RequestForm;
 import models.Request;
 import play.data.Form;
 import play.mvc.Controller;

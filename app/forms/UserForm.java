@@ -13,7 +13,7 @@ public class UserForm {
     protected String password;
 
     public List<ValidationError> validate() {
-        List<ValidationError> errors = new ArrayList<ValidationError>();
+        List<ValidationError> errors = new ArrayList<>();
         User u = User.find.where().eq("email", email).findUnique();
 
         if (u == null) {
