@@ -13,12 +13,14 @@ DELETE  /logout                     controllers.SessionController.destroy
 
 # Vacation Requests
 GET     /requests                   controllers.VacationRequestController.index
-#GET     /requests/new                controllers.VacationRequestController.newRequest
-#POST    /requests/create             controllers.VacationRequestController.create
-#GET     /requests/:id                controllers.VacationRequestController.show(id: Long)
-#GET     /requests/:id/edit           controllers.VacationRequestController.edit(id: Long)
-#PUT     /requests/:id                controllers.VacationRequestController.update(id: Long)
-#DELETE  /requests/:id                controllers.VacationRequestController.destroy(id: Long)
+GET     /requests/new               controllers.VacationRequestController.newRequest
+POST    /requests/create            controllers.VacationRequestController.create
+GET     /requests/:id               controllers.VacationRequestController.show(id: Long)
+GET     /requests/:id/edit          controllers.VacationRequestController.edit(id: Long)
+POST    /requests/:id/approve       controllers.VacationRequestController.update(id: Long, status = "approved")
+POST    /requests/:id/deny          controllers.VacationRequestController.update(id: Long, status = "denied")
+POST    /requests/:id/delete        controllers.VacationRequestController.destroy(id: Long)
+
 #
 ## Users
 #GET     /users                    controllers.UserController.index

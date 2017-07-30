@@ -1,5 +1,22 @@
 @(requests: List[Request])
 
 @main("List") {
-    <h1>Vacation Requests</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h2>Request List</h2>
+                <p><a href="@routes.VacationRequestController.newRequest()">Submit new request</a></p>
+                <div class="list-group">
+                    @for(request <- requests){
+                            <a href="@routes.VacationRequestController.show(request.getId())" class="list-group-item @if(request.approved()){list-group-item-success} @if(request.denied()){list-group-item-danger}">
+                                Request for @request.inNaturalLanguage()
+                                @if(request.pending()){
+                                    <span class="badge">With supervisor</span>
+                                }
+                            </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 }

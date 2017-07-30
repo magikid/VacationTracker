@@ -1,0 +1,33 @@
+@import helper._
+
+@(requestForm: Form[Request])
+@implicitField = @{ FieldConstructor(requestFieldConstructorTemplate.f) }
+
+@main("New Vacation Request") {
+    @if(requestForm.hasGlobalErrors()){
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="alert alert-danger" role="alert">@requestForm.globalError.message()</div>
+            </div>
+        </div>
+    }
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-5">
+                <h2>New Vacation Request</h2>
+                @helper.form(action = routes.VacationRequestController.create()){
+                    @helper.input(requestForm("startDate"), '_label -> "Start Date", 'class -> "form-control") { (id, name, value, args) =>
+                        <input type="date" name="@name" id="@id" @toHtmlArgs(args)>
+                    }
+                    @helper.input(requestForm("endDate"), '_label -> "End Date", 'class -> "form-control") { (id, name, value, args) =>
+                        <input type="date" name="@name" id="@id" @toHtmlArgs(args)>
+                    }
+                    @helper.inputText(requestForm("location"), '_label -> "Location", 'class -> "form-control", 'placeholder -> "Where are you going?")
+                    @helper.textarea(requestForm("notes"), '_label -> "Notes", 'class -> "form-control", 'placeholder -> "Anything else? (Optional)")
+                    @CSRF.formField
+                    <button class="center-block btn btn-primary" type="submit">Submit</button>
+                }
+            </div>
+        </div>
+    </div>
+}

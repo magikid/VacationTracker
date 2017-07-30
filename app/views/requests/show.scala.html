@@ -1,0 +1,33 @@
+@import helper._
+
+@(request: Request)
+
+@main("Show Vacation Request") {
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-5">
+                <h2>Vacation Request #@request.getId()</h2>
+                <dl>
+                    <dt>Status</dt>
+                    <dd>@request.getSupervisorApproved()</dd>
+                    <dt>Start date</dt>
+                    <dd>@request.getStartDate()</dd>
+                    <dt>End date</dt>
+                    <dd>@request.getEndDate()</dt>
+                    <dt>Location</dt>
+                    <dd>@request.getLocation()</dd>
+                    <dt>Notes</dt>
+                    <dd>@request.getNotes()</dd>
+                </dl>
+                @if(request.getSupervisorApproved() == Request.Status.PENDING){
+                    @helper.form(action = routes.VacationRequestController.destroy(request.getId())){
+                        <button class="center-block btn btn-danger" type="submit">Delete</button>
+                        @CSRF.formField
+                    }
+                }
+                <a href="@routes.VacationRequestController.index()">Back to List</a>
+            </div>
+        </div>
+    </div>
+    </div>
+}
