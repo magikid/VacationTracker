@@ -13,4 +13,10 @@ public class Application extends Controller {
     }
 
     public static Result ping(){ return ok("Pong " + (new Date())); }
+
+    public static Result oAuthDenied(final String providerKey) {
+        flash("error",
+                "You need to accept the OAuth connection in order to use this website!");
+        return redirect(routes.Application.index());
+    }
 }

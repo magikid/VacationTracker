@@ -1,24 +1,12 @@
-@(userForm: Form[forms.UserForm])
+@import com.feth.play.module.pa.views.html.forProviders
 
 @main("Login") {
     <div class="container">
         <div class="row">
             <div class="col-md-offset-3 col-md-5">
                 <h2>Login</h2>
-                @helper.form(action=routes.SessionController.create()){
-                    <div class="form-group">
-                        @helper.input(userForm("email"), '_label -> "Email address", '_showConstraints -> false
-                        ){ (id, name, value, args) =>
-                            <input type="email" class="form-control" placeholder="Email" name="@name" id="@name" @toHtmlArgs(args)>
-                        }
-                    </div>
-                    <div class="form-group">
-                        @helper.input(userForm("password"), '_label -> "Password", '_showConstraints -> false
-                        ){ (id, name, value, args) =>
-                            <input type="password" class="form-control" placeholder="Password" name="@name" id="@name" @toHtmlArgs(args)>
-                        }
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
+                @forProviders() { p =>
+                    <a href="@p.getUrl">@p.getKey</a>
                 }
             </div>
         </div>

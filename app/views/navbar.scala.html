@@ -1,3 +1,5 @@
+@import com.feth.play.module.pa.views.html._
+
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -12,6 +14,15 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="@routes.VacationRequestController.index">View Requests</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @currentAuth() { auth =>
+                    @if(auth != null) {
+                        <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout">Logout</a></li>
+                    }else{
+                        <li><a href="@routes.SessionController.newSession()">Login</a></li>
+                    }
+                }
             </ul>
         </div>
     </div>
