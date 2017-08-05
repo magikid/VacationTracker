@@ -1,0 +1,2 @@
+10005:service.MyUserServicePlugin
+10120:com.feth.play.module.pa.providers.oauth2.github.GithubAuthProvider
