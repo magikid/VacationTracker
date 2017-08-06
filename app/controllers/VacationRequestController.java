@@ -5,12 +5,14 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.index;
 import play.mvc.Http.*;
 
 /**
  * Created by chrisj on 7/28/17.
  */
+@Security.Authenticated(Secured.class)
 public class VacationRequestController extends Controller {
     public static Result index() {
         return ok(views.html.requests.index.render(Request.find.all()));
