@@ -1,5 +1,8 @@
 package controllers;
 
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.user.AuthUser;
+import models.User;
 import play.*;
 import play.mvc.*;
 import java.util.Date;
@@ -21,5 +24,11 @@ public class Application extends Controller {
         flash(FLASH_ERROR_KEY,
                 "You need to accept the OAuth connection in order to use this website!");
         return redirect(routes.Application.index());
+    }
+
+    public static User getLocalUser(final Http.Session session) {
+        final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
+        final User localUser = User.findByAuthUserIdentity(currentAuthUser);
+        return localUser;
     }
 }

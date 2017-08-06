@@ -21,13 +21,11 @@ POST    /requests/:id/delete        controllers.VacationRequestController.destro
 
 #
 ## Users
-#GET     /users                    controllers.UserController.index
-#GET     /users/new                controllers.UserController.newRequest
-#POST    /users/create             controllers.UserController.create
-#GET     /users/:id                controllers.UserController.show(id: Long)
-#GET     /users/:id/edit           controllers.UserController.edit(id: Long)
-#PUT     /users/:id                controllers.UserController.update(id: Long)
-#DELETE  /users/:id                controllers.UserController.destroy(id: Long)
+GET     /users                    controllers.UserController.index
+GET     /users/:id                controllers.UserController.show(id: Long)
+GET     /users/:id/edit           controllers.UserController.edit(id: Long)
+POST    /users/:id                controllers.UserController.update(id: Long)
+POST    /users/:id/delete         controllers.UserController.destroy(id: Long)
 
 GET     /logout                            com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider            com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)

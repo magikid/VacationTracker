@@ -1,0 +1,22 @@
+@(users: List[User])
+
+@main("Users") {
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h2>UserList</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-1">
+                <div class="list-group">
+                    @for(user <- users){
+                            <a href="@routes.UserController.show(user.getId())" class="list-group-item">
+                                @user.getName() <span class="badge">@{user.getType}</span>
+                            </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

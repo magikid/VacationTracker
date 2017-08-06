@@ -35,6 +35,7 @@ public class User extends Model {
 
     public String name;
 
+    @Temporal(TemporalType.DATE)
     public Date lastSignIn;
 
     public boolean isHrApproved;
@@ -66,6 +67,7 @@ public class User extends Model {
         User user = userList.findUnique();
         user.lastSignIn = new Date();
         user.save();
+        System.out.println("getAuthUserFind: " + user);
 
         return userList;
     }
@@ -165,6 +167,98 @@ public class User extends Model {
                 ", type=" + type +
                 ", linkedAccounts=" + linkedAccounts +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Date getLastSignIn() {
+        return lastSignIn;
+    }
+
+    public boolean isHrApproved() {
+        return isHrApproved;
+    }
+
+    public EmployeeType getType() {
+        return type;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastSignIn(Date lastSignIn) {
+        this.lastSignIn = lastSignIn;
+    }
+
+    public void setIsHrApproved(boolean hrApproved) {
+        this.isHrApproved = hrApproved;
+    }
+
+    public boolean isEmailValidated() {
+        return emailValidated;
+    }
+
+    public void setEmailValidated(boolean emailValidated) {
+        this.emailValidated = emailValidated;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setType(EmployeeType type) {
+        this.type = type;
+    }
+
+    public void setType(String type){
+        switch (type){
+            case "HR":
+                this.type = EmployeeType.HR;
+                break;
+            case "SUPERVISOR":
+                this.type = EmployeeType.SUPERVISOR;
+                break;
+            case "EMPLOYEE":
+                this.type = EmployeeType.EMPLOYEE;
+                break;
+            default:
+                this.type = EmployeeType.EMPLOYEE;
+        }
+    }
+
+    public List<LinkedAccount> getLinkedAccounts() {
+        return linkedAccounts;
+    }
+
+    public void setLinkedAccounts(List<LinkedAccount> linkedAccounts) {
+        this.linkedAccounts = linkedAccounts;
+    }
+
+    public static Finder<Long, User> getFind() {
+        return find;
     }
 
     public enum EmployeeType {

@@ -1,4 +1,5 @@
 @import com.feth.play.module.pa.views.html.forProviders
+@import org.apache.commons.lang3.text.WordUtils
 
 @main("Login") {
     <div class="container">
@@ -6,7 +7,7 @@
             <div class="col-md-offset-3 col-md-5">
                 <h2>Login</h2>
                 @forProviders() { p =>
-                    <a href="@p.getUrl"><i class="fa fa-@p.getKey fa-4x" aria-hidden="true"></i>@{StringUtils.capitalize(p.getKey)}</a>
+                    <a href="@p.getUrl"><i class="fa fa-@p.getKey fa-4x" aria-hidden="true"></i>@{WordUtils.capitalize(p.getKey)}</a>
                 }
             </div>
         </div>
