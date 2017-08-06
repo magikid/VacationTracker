@@ -7,6 +7,7 @@ import javax.persistence.*;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.EnumValue;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import play.data.validation.*;
 import javax.persistence.OneToMany;
@@ -42,10 +43,12 @@ public class User extends Model {
 
     public boolean active;
 
+    public EmployeeType type;
+
     @OneToMany(cascade = CascadeType.ALL)
     public List<LinkedAccount> linkedAccounts;
 
-    public static final Finder<Long, User> find = new Finder<Long, User>(
+    public static final Finder<Long, User> find = new Finder<>(
             Long.class, User.class);
 
     public static boolean existsByAuthUserIdentity(
@@ -56,9 +59,15 @@ public class User extends Model {
 
     private static ExpressionList<User> getAuthUserFind(
             final AuthUserIdentity identity) {
-        return find.where().eq("active", true)
+
+        ExpressionList<User> userList = find.where().eq("active", true)
                 .eq("linkedAccounts.providerUserId", identity.getId())
                 .eq("linkedAccounts.providerKey", identity.getProvider());
+        User user = userList.findUnique();
+        user.lastSignIn = new Date();
+        user.save();
+
+        return userList;
     }
 
     public static User findByAuthUserIdentity(final AuthUserIdentity identity) {
@@ -82,6 +91,9 @@ public class User extends Model {
     public static User create(final AuthUser authUser) {
         final User user = new User();
         user.active = true;
+        user.type = EmployeeType.EMPLOYEE;
+        user.isHrApproved = false;
+        user.lastSignIn = new Date();
         user.linkedAccounts = Collections.singletonList(LinkedAccount
                 .create(authUser));
 
@@ -136,6 +148,33 @@ public class User extends Model {
     }
 
     public LinkedAccount getAccountByProvider(final String providerKey) {
+        System.out.println("" + this);
         return LinkedAccount.findByProviderKey(this, providerKey);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", lastSignIn=" + lastSignIn +
+                ", isHrApproved=" + isHrApproved +
+                ", emailValidated=" + emailValidated +
+                ", active=" + active +
+                ", type=" + type +
+                ", linkedAccounts=" + linkedAccounts +
+                '}';
+    }
+
+    public enum EmployeeType {
+        @EnumValue("employee")
+        EMPLOYEE,
+
+        @EnumValue("supervisor")
+        SUPERVISOR,
+
+        @EnumValue("hr")
+        HR
     }
 }
