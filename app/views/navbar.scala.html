@@ -1,4 +1,5 @@
-@import com.feth.play.module.pa.views.html._
+@(localUser: models.User)
+@import com.feth.play.module.pa.views.html.currentAuth;
 
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
@@ -18,7 +19,12 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @currentAuth() { auth =>
-                    @if(auth != null) {
+                    @if(auth != null){
+                        @if(localUser != null){
+                            <p class="navbar-text">Hello @localUser.getName (@localUser.getType)!</p>
+                        }else{
+                            <p class="navbar-text">Hello!</p>
+                        }
                         <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout">Logout</a></li>
                     }else{
                         <li><a href="@routes.SessionController.newSession">Login</a></li>

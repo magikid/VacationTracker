@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            @if(flash.containsKey(Application.FLASH_ERROR_KEY)) {
+                <div class="alert alert-warning">
+                   @flash.get(Application.FLASH_ERROR_KEY)
+                </div>
+            }
+            @if(flash.containsKey(Application.FLASH_MESSAGE_KEY)) {
+                <div class="alert alert-success">
+                    @flash.get(Application.FLASH_MESSAGE_KEY)
+                </div>
+            }
+        </div>
+    </div>
+</div>

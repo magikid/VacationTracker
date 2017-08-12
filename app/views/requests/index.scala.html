@@ -1,6 +1,6 @@
-@(requests: List[Request])
+@(requests: List[Request], currentUser: models.User = null)
 
-@main("List") {
+@main("List", currentUser) {
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">

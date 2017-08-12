@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Request;
+import models.User;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -19,7 +20,8 @@ import static controllers.Application.FLASH_ERROR_KEY;
 @Security.Authenticated(Secured.class)
 public class VacationRequestController extends Controller {
     public static Result index() {
-        return ok(views.html.requests.index.render(Request.find.all()));
+        User currentUser = Application.getLocalUser(session());
+        return ok(views.html.requests.index.render(Request.find.all(), currentUser));
     }
 
     public static Result newRequest(){

@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, localUser: models.User=null)(content: Html)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +14,8 @@
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
     </head>
     <body>
-        @navbar.render()
+        @navbar.render(localUser)
+        @flashbar.render()
 
         @content
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
