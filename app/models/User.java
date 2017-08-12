@@ -67,7 +67,6 @@ public class User extends Model {
         User user = userList.findUnique();
         user.lastSignIn = new Date();
         user.save();
-        System.out.println("getAuthUserFind: " + user);
 
         return userList;
     }
@@ -150,7 +149,6 @@ public class User extends Model {
     }
 
     public LinkedAccount getAccountByProvider(final String providerKey) {
-        System.out.println("" + this);
         return LinkedAccount.findByProviderKey(this, providerKey);
     }
 

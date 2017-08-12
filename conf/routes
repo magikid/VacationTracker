@@ -2,6 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
 # Home page
 GET     /                           controllers.Application.index
 GET     /ping                       controllers.Application.ping
@@ -31,5 +34,7 @@ GET     /logout                            com.feth.play.module.pa.controllers.A
 GET     /authenticate/:provider            com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
 GET     /authenticate/:provider/denied     controllers.Application.oAuthDenied(provider: String)
 
-# Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+# Hidden testing endpoints
+GET     /promote                    controllers.UserController.promote
+GET     /demote                     controllers.UserController.demote

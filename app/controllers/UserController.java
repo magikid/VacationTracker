@@ -56,7 +56,43 @@ public class UserController extends Controller {
 
             return redirect(routes.UserController.index());
         });
+    }
 
-        return redirect(routes.UserController.index());
+    public static Result promote(){
+        User currentUser = Application.getLocalUser(session());
+        switch (currentUser.getType()){
+            case EMPLOYEE:
+                currentUser.setType(User.EmployeeType.SUPERVISOR);
+                break;
+            case SUPERVISOR:
+                currentUser.setType(User.EmployeeType.HR);
+                break;
+            default:
+                break;
+        }
+
+        currentUser.save();
+
+        flash(Application.FLASH_MESSAGE_KEY, "Promoted to " + currentUser.getType());
+        return redirect("/");
+    }
+
+    public static Result demote(){
+        User currentUser = Application.getLocalUser(session());
+        switch (currentUser.getType()){
+            case HR:
+                currentUser.setType(User.EmployeeType.SUPERVISOR);
+                break;
+            case SUPERVISOR:
+                currentUser.setType(User.EmployeeType.EMPLOYEE);
+                break;
+            default:
+                break;
+        }
+
+        currentUser.save();
+
+        flash(Application.FLASH_MESSAGE_KEY, "Demoted to " + currentUser.getType());
+        return redirect("/");
     }
 }
