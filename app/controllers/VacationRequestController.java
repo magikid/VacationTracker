@@ -4,15 +4,10 @@ import models.Request;
 import models.User;
 import play.data.Form;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
-import views.html.index;
-import play.mvc.Http.*;
 
-import java.util.concurrent.Callable;
-
-import static controllers.Application.FLASH_ERROR_KEY;
+import java.util.Objects;
 
 /**
  * Created by chrisj on 7/28/17.
@@ -64,7 +59,7 @@ public class VacationRequestController extends Controller {
     public static Result edit(Long id){
         return Application.onlySupervisorsAuthorized(() -> {
             Request vacation = Request.find.byId(id);
-            Form vacationRequestForm = Form.form(Request.class).fill(vacation);
+            Form<Request> vacationRequestForm = Form.form(Request.class).fill(vacation);
             return ok(views.html.requests.edit.render(vacationRequestForm, id));
         });
     }
@@ -73,9 +68,9 @@ public class VacationRequestController extends Controller {
         return Application.onlySupervisorsAuthorized(() -> {
             Request.Status status;
 
-            if(requestStatus == "approved"){
+            if(requestStatus.equals("approved")){
                 status = Request.Status.APPROVED;
-            }else if(requestStatus == "denied"){
+            }else if(requestStatus.equals("denied")){
                 status = Request.Status.DENIED;
             }else{
                 status = Request.Status.PENDING;

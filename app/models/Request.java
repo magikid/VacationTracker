@@ -5,7 +5,6 @@ import com.avaje.ebean.annotation.EnumValue;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
-import javax.lang.model.util.SimpleElementVisitor6;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,22 +23,22 @@ public class Request extends Model{
 
     @Constraints.Required
     @Formats.DateTime(pattern="yyyy-mm-dd")
-    @Column(unique = false, nullable = false)
+    @Column(nullable = false)
     public Date startDate;
 
     @Constraints.Required
     @Formats.DateTime(pattern="yyyy-mm-dd")
-    @Column(unique = false, nullable = false)
+    @Column(nullable = false)
     public Date endDate;
 
     @Constraints.Required
-    @Column(unique = false, nullable = false)
+    @Column(nullable = false)
     public String location;
 
-    @Column(unique = false, nullable = false)
+    @Column(nullable = false)
     public String notes;
 
-    @Column(unique = false, nullable = false)
+    @Column(nullable = false)
     public Status supervisorApproved;
 
     public String validate() {
@@ -53,9 +52,7 @@ public class Request extends Model{
         return this.startDate.before(this.endDate);
     }
 
-    public static Finder<Long, models.Request> find = new Finder(
-            Long.class, models.Request.class
-    );
+    public static Finder<Long, models.Request> find = new Finder<>(models.Request.class);
 
     public String inNaturalLanguage(){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

@@ -1,4 +1,5 @@
-@(users: List[User])
+@import java.util
+@(users: util.List[User])
 
 @main("Users") {
     <div class="container">
@@ -12,7 +13,7 @@
                 <div class="list-group">
                     @for(user <- users){
                             <a href="@routes.UserController.show(user.getId())" class="list-group-item">
-                                @user.getName() <span class="badge">@{user.getType}</span>
+                                @user.getName <span class="badge">@{user.getType}</span>
                             </a>
                     }
                 </div>

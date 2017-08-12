@@ -4,14 +4,10 @@ package models;
 // model
 import javax.persistence.*;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.EnumValue;
-import com.feth.play.module.pa.user.AuthUserIdentity;
 import play.data.validation.*;
-import javax.persistence.OneToMany;
-import com.feth.play.module.pa.user.AuthUser;
+
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.feth.play.module.pa.user.AuthUser;
@@ -49,8 +45,7 @@ public class User extends Model {
     @OneToMany(cascade = CascadeType.ALL)
     public List<LinkedAccount> linkedAccounts;
 
-    public static final Finder<Long, User> find = new Finder<>(
-            Long.class, User.class);
+    public static final Finder<Long, User> find = new Finder<>(User.class);
 
     public static boolean existsByAuthUserIdentity(
             final AuthUserIdentity identity) {
@@ -125,7 +120,7 @@ public class User extends Model {
     }
 
     public Set<String> getProviders() {
-        final Set<String> providerKeys = new HashSet<String>(
+        final Set<String> providerKeys = new HashSet<>(
                 linkedAccounts.size());
         for (final LinkedAccount acc : linkedAccounts) {
             providerKeys.add(acc.providerKey);

@@ -3,7 +3,6 @@ package controllers;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUser;
 import models.User;
-import play.*;
 import play.mvc.*;
 import java.util.Date;
 import java.util.concurrent.Callable;
@@ -29,8 +28,7 @@ public class Application extends Controller {
 
     public static User getLocalUser(final Http.Session session) {
         final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
-        final User localUser = User.findByAuthUserIdentity(currentAuthUser);
-        return localUser;
+        return User.findByAuthUserIdentity(currentAuthUser);
     }
 
     public static Result onlySupervisorsAuthorized(Callable onSuccess){

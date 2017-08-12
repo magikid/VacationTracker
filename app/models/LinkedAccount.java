@@ -21,8 +21,7 @@ public class LinkedAccount extends Model {
     public String providerUserId;
     public String providerKey;
 
-    public static final Model.Finder<Long, LinkedAccount> find = new Model.Finder<Long, LinkedAccount>(
-            Long.class, LinkedAccount.class);
+    public static final Model.Finder<Long, LinkedAccount> find = new Model.Finder<>(LinkedAccount.class);
 
     public static LinkedAccount findByProviderKey(final User user, String key) {
         return find.where().eq("user", user).eq("providerKey", key)
