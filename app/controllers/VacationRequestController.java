@@ -9,6 +9,10 @@ import play.mvc.Security;
 import views.html.index;
 import play.mvc.Http.*;
 
+import java.util.concurrent.Callable;
+
+import static controllers.Application.FLASH_ERROR_KEY;
+
 /**
  * Created by chrisj on 7/28/17.
  */
@@ -19,20 +23,22 @@ public class VacationRequestController extends Controller {
     }
 
     public static Result newRequest(){
-        return ok(views.html.requests.new_request.render(Form.form(Request.class)));
+        return Application.onlyEmployeesAuthorized(() -> ok(views.html.requests.new_request.render(Form.form(Request.class))));
     }
 
     public static Result create(){
-        Form<Request> vacationRequestForm = Form.form(Request.class).bindFromRequest();
-        System.out.println("form: " + vacationRequestForm);
-        if(vacationRequestForm.hasErrors()){
-            return badRequest(views.html.requests.new_request.render(vacationRequestForm));
-        }else{
-            Request vacationRequest = vacationRequestForm.get();
-            vacationRequest.setSupervisorApproved(Request.Status.PENDING);
-            vacationRequest.save();
-            return redirect(routes.VacationRequestController.show(vacationRequest.getId()));
-        }
+        return Application.onlyEmployeesAuthorized(() -> {
+            Form<Request> vacationRequestForm = Form.form(Request.class).bindFromRequest();
+
+            if(vacationRequestForm.hasErrors()){
+                return badRequest(views.html.requests.new_request.render(vacationRequestForm));
+            }else{
+                Request vacationRequest = vacationRequestForm.get();
+                vacationRequest.setSupervisorApproved(Request.Status.PENDING);
+                vacationRequest.save();
+                return redirect(routes.VacationRequestController.show(vacationRequest.getId()));
+            }
+        });
     }
 
     public static Result show(Long id){
@@ -41,35 +47,42 @@ public class VacationRequestController extends Controller {
     }
 
     public static Result destroy(Long id){
-        Request vacation = Request.find.byId(id);
-        if(!vacation.supervisorApproved()){
-            vacation.delete();
-            return redirect(routes.VacationRequestController.index());
-        }else{
-            return badRequest("You're not allowed to delete a request your supervisor has already approved.");
-        }
+        return Application.onlyEmployeesAuthorized(() -> {
+            // User is an employee
+            Request vacation = Request.find.byId(id);
+            if (!vacation.supervisorApproved()) {
+                vacation.delete();
+                return redirect(routes.VacationRequestController.index());
+            } else {
+                return badRequest("You're not allowed to delete a request your supervisor has already approved.");
+            }
+        });
     }
 
     public static Result edit(Long id){
-        Request vacation = Request.find.byId(id);
-        Form vacationRequestForm = Form.form(Request.class).fill(vacation);
-        return ok(views.html.requests.edit.render(vacationRequestForm, id));
+        return Application.onlySupervisorsAuthorized(() -> {
+            Request vacation = Request.find.byId(id);
+            Form vacationRequestForm = Form.form(Request.class).fill(vacation);
+            return ok(views.html.requests.edit.render(vacationRequestForm, id));
+        });
     }
 
     public static Result update(Long id, String requestStatus){
-        Request.Status status;
+        return Application.onlySupervisorsAuthorized(() -> {
+            Request.Status status;
 
-        if(requestStatus == "approved"){
-            status = Request.Status.APPROVED;
-        }else if(requestStatus == "denied"){
-            status = Request.Status.DENIED;
-        }else{
-            status = Request.Status.PENDING;
-        }
+            if(requestStatus == "approved"){
+                status = Request.Status.APPROVED;
+            }else if(requestStatus == "denied"){
+                status = Request.Status.DENIED;
+            }else{
+                status = Request.Status.PENDING;
+            }
 
-        Request vacationRequest = Request.find.byId(id);
-        vacationRequest.setSupervisorApproved(status);
-        vacationRequest.save();
-        return redirect(routes.VacationRequestController.show(vacationRequest.getId()));
+            Request vacationRequest = Request.find.byId(id);
+            vacationRequest.setSupervisorApproved(status);
+            vacationRequest.save();
+            return redirect(routes.VacationRequestController.show(vacationRequest.getId()));
+        });
     }
 }
