@@ -60,8 +60,6 @@ public class User extends Model {
                 .eq("linkedAccounts.providerUserId", identity.getId())
                 .eq("linkedAccounts.providerKey", identity.getProvider());
         User user = userList.findUnique();
-        user.lastSignIn = new Date();
-        user.save();
 
         return userList;
     }
