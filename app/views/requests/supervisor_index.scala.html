@@ -1,0 +1,26 @@
+@import java.util
+@(requests: util.List[Request], currentUser: models.User = null)
+
+@main("List", currentUser) {
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h2>Request List</h2>
+                <div class="list-group">
+                    @for(request <- requests){
+                        @if(request.pending()) {
+                            <a href="@routes.VacationRequestController.edit(request.getId())" class="list-group-item">Request for @request.inNaturalLanguage()</a>
+                        }else{
+                            <a href="@routes.VacationRequestController.show(request.getId())" class="list-group-item @if(request.approved()) {list-group-item-success} @if(request.denied()) {list-group-item-danger}">
+                                Request for @request.inNaturalLanguage()
+                                @if(request.pending()) {
+                                    <span class="badge">With supervisor</span>
+                                }
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

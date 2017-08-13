@@ -16,7 +16,11 @@ import java.util.Objects;
 public class VacationRequestController extends Controller {
     public static Result index() {
         User currentUser = Application.getLocalUser(session());
-        return ok(views.html.requests.index.render(Request.find.all(), currentUser));
+        if(currentUser.getType() == User.EmployeeType.SUPERVISOR){
+            return ok(views.html.requests.supervisor_index.render(Request.find.all(), currentUser));
+        }else {
+            return ok(views.html.requests.index.render(Request.find.all(), currentUser));
+        }
     }
 
     public static Result newRequest(){
