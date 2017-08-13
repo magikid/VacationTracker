@@ -1,7 +1,7 @@
 @import helper._
 
 @(requestForm: Form[Request], requestId: Long)
-@implicitField = @{ FieldConstructor(requestFieldConstructorTemplate.f) }
+@implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
 @main("Update Vacation Request") {
     @if(requestForm.hasGlobalErrors){
@@ -16,23 +16,23 @@
         <div class="row">
             <div class="col-md-offset-3 col-md-6">
                 <h2>New Vacation Request</h2>
-                @helper.inputText(requestForm("startDateForForm"), 'disabled -> "disabled", '_label -> "Start Date", 'class -> "form-control")
-                @helper.inputText(requestForm("endDateForForm"), 'disabled -> "disabled", '_label -> "End Date", 'class -> "form-control")
-                @helper.inputText(requestForm("location"), 'disabled -> "disabled", '_label -> "Location", 'class -> "form-control", 'placeholder -> "Where are you going?")
-                @helper.textarea(requestForm("notes"), '_label -> "Notes", 'disabled -> "disabled", 'class -> "form-control", 'placeholder -> "Anything else? (Optional)")
+                @b3.form(action = routes.Application.index()) {
+                    @b3.date(requestForm("startDateForForm"), 'disabled -> "disabled", '_label -> "Start Date")
+                    @b3.date(requestForm("endDateForForm"), 'disabled -> "disabled", '_label -> "End Date")
+                    @b3.text(requestForm("location"), 'disabled -> "disabled", '_label -> "Location", 'placeholder -> "Where are you going?")
+                    @b3.textarea(requestForm("notes"), '_label -> "Notes", 'disabled -> "disabled", 'placeholder -> "Anything else? (Optional)")
+                }
             </div>
         </div>
         <div class="row">
             <div class="col-md-offset-3 col-md-4">
-                @helper.form(action = routes.VacationRequestController.update(requestId, "approved")) {
-                    @CSRF.formField
-                    <input type="submit" class="btn btn-success form-control" value="Approve Request"></input>
+                @b3.form(action = routes.VacationRequestController.update(requestId, "approved")) {
+                    @b3.submit('class -> "btn btn-success"){ <span class="glyphicon glyphicon-ok"></span> Approve Request }
                 }
             </div>
             <div class="col-md-2">
-                @helper.form(action = routes.VacationRequestController.update(requestId, "denied")) {
-                    @CSRF.formField
-                    <input type="submit" class="btn btn-danger form-control" value="Deny Request"></input>
+                @b3.form(action = routes.VacationRequestController.update(requestId, "denied")) {
+                    @b3.submit('class -> "btn btn-danger"){ <span class="glyphicon glyphicon-remove"></span> Deny Request }
                 }
             </div>
         </div>
